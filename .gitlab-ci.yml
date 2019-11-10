@@ -1,0 +1,27 @@
+image: python:3.7
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+    - venv/
+
+before_script:
+  - python3 -V  # Print out python version for debugging
+
+build:
+  stage: build
+
+  script:
+    - python -m unittest
+    - python setup.py sdist
+    - pip install twine -i https://pypi.douban.com/simple
+    - twine upload --repository-url http://pypi.aengine.com.cn/ -u $AENGINE_PYPI_ACCOUNT -p $AENGINE_PYPI_PASSWORD dist/*
+  artifacts:
+    paths:
+      - dist/*
+  only:
+    - master
+    

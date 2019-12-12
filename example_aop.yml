@@ -1,0 +1,22 @@
+aspects:
+  prefix:
+    class: example.aspects.prefix.StrPrefixAspect
+    args: ["prefix-01"]
+  logger:
+    class: example.aspects.logger.Logger
+    kwargs:
+      logger_name: werkzerg
+  profiler:
+    class: aop.aspect.collection.profiler.SimpleProfiler
+pointcuts:
+  logger:
+    - example.apis.*.*Api.get
+  prefix:
+    - pointcut: example.services.foo.Foo.pipe
+      order: 20
+  profiler:
+    - pointcut: example.apis.*.*Api.get
+      order: 1
+    - pointcut: example.services.foo.Foo.pipe
+      order: 1
+

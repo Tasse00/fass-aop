@@ -15,7 +15,6 @@ build:
   stage: build
 
   script:
-    - python -m unittest
     - python setup.py sdist
     - pip install twine -i https://pypi.douban.com/simple
     - twine upload --repository-url http://pypi.aengine.com.cn/ -u $AENGINE_PYPI_ACCOUNT -p $AENGINE_PYPI_PASSWORD dist/*

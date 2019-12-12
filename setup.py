@@ -1,12 +1,13 @@
-from setuptools import setup
-
-from fass_aop import VERSION
+from setuptools import setup, find_packages
 
 setup(
-    name='FAss-AOP',
-    version=VERSION,
-    description=('面向切面编程, FAss项目的运行时补充'),
-    packages=["fass_aop"],
+    name='aop',
+    version="2.0.0",
+    description='依靠meta_path实现的无倾入的AOP工具包',
+    packages=find_packages(
+        include=("aop", )
+    ),
+    include_package_data=True,
     long_description=open('README.md', encoding='utf8').read(),
     long_description_content_type='text/markdown',
     author='Aengine',

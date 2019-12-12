@@ -12,3 +12,8 @@ __pycache__
 build
 FAss_AOP.egg-info
 dist
+
+# test
+coverage.report
+.coverage
+

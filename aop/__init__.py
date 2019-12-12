@@ -8,7 +8,7 @@ from aop.pointcut.matcher import PointcutMatcher
 from aop.signals import notifier, SIG_ASPECT_ADDED, SIG_MODULE_LOADED
 from aop.utils import import_target
 
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 
 join_point_store = JoinPointStore()
 aspect_store = AspectStore()

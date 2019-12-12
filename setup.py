@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name='aop',
-    version="2.0.0",
+    version="2.0.1",
     description='依靠meta_path实现的无倾入的AOP工具包',
     packages=find_packages(
-        include=("aop", )
+        include=("aop*", )
     ),
     include_package_data=True,
     long_description=open('README.md', encoding='utf8').read(),

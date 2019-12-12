@@ -25,9 +25,13 @@ class SimpleProfiler(Aspect):
 
     def console_report(self):
         """控制台打印执行次数、耗时统计"""
-        name_len = max(len(k) for k in self.counter.keys())
+        print(self.format_console_report())
 
-        fmt = '{k:%d}|{c:10}|{v:10}' % name_len
-        print('\n' + fmt.format(k="Fun", c="Count", v="AveCost"))
+    def format_console_report(self) -> str:
+        name_len = max(len(k) for k in self.counter.keys())
+        total = ""
+        fmt = '{k:%d}|{c:10}|{v:10}\n' % name_len
+        total += '\n' + fmt.format(k="Fun", c="Count", v="AveCost")
         for k, v in self.counter.items():
-            print(fmt.format(k=k, c=v[0], v=v[1]))
+            total += fmt.format(k=k, c=v[0], v=v[1])
+        return total

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='aop',
-    version="2.0.1",
+    version="2.0.2",
     description='依靠meta_path实现的无倾入的AOP工具包',
     packages=find_packages(
         include=("aop*", )

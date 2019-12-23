@@ -1,3 +1,4 @@
+import functools
 from typing import List, Tuple
 
 from aop.aspect import Aspect, LazyAspect
@@ -19,6 +20,7 @@ class JoinPoint:
         # 实例调用时 __call__无法获取实例的self属性
         # setattr(self.obj, self.point, MethodType(self, self.obj))
 
+        @functools.wraps(self.target)
         def join_point_proxy(*args, **kwargs):
             from aop.joinpoint.proceeding import ProceedingJoinPoint
             ordered_aspects = self.get_ordered_aspects()

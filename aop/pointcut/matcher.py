@@ -41,11 +41,21 @@ class PointcutMatcher:
         self.pointcut_list = []
 
     @staticmethod
-    def is_com_matched(com: str, expr_com: str):
-        for sub_expr in expr_com.split("|"):
-            if re.fullmatch(sub_expr.replace("*", ".*"), com):
-                return True
-        return False
+    def is_com_matched(com: str, expr: str):
+        for expr_com in expr.split(','):
+            condition_result = False
+            for sub_expr in expr_com.split("|"):
+                if sub_expr.startswith('^'):
+                    if not re.fullmatch(sub_expr[1:].replace("*", ".*"), com):
+                        condition_result = True
+                        break
+                else:
+                    if re.fullmatch(sub_expr.replace("*", ".*"), com):
+                        condition_result = True
+                        break
+            if not condition_result:
+                return False
+        return True
 
     def match_pointcut(self, module: ModuleType, pointcut: Pointcut):
         """module对单独一个切点进行检查、匹配"""

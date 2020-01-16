@@ -10,7 +10,7 @@ aspects:
     class: aop.aspect.collection.profiler.SimpleProfiler
 pointcuts:
   logger:
-    - example.apis.*.*Api.get
+    - example.apis.*.*Api,^Config*.get
   prefix:
     - pointcut: example.services.foo.Foo.pipe
       order: 20

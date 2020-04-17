@@ -62,18 +62,32 @@ def install():
 
                 spec = cls.ori_find_spec(fullname, path, target)
                 if spec:
-                    ori_exec_module = spec.loader.exec_module
+                    loader = spec.loader
+                    if hasattr(loader, 'exec_module'):
+                        ori_exec_module = loader.exec_module
+                        def aop_exec_module(module):
+                            ret = ori_exec_module(module)
+                            # 装饰器方式引入的切点
+                            notifier.trigger(SIG_MODULE_LOADED, module)
+                            # point_cut_matcher.on_module_executed(module)
+                            # point_cut_matcher.match_advance_set_pointcuts(module)
+                            return ret
 
-                    def aop_exec_module(module):
-                        ret = ori_exec_module(module)
-                        # 装饰器方式引入的切点
-                        notifier.trigger(SIG_MODULE_LOADED, module)
-                        # point_cut_matcher.on_module_executed(module)
-                        # point_cut_matcher.match_advance_set_pointcuts(module)
-                        return ret
-
-                    spec.loader.exec_module = aop_exec_module
-
+                        loader.exec_module = aop_exec_module
+                    else:
+                        pass
+                        # # TODO
+                        # # loader.load_module 是read only属性，所以暂时略过
+                        # ori_load_module = loader.load_module
+                        # def aop_load_module(fullname):
+                        #     module = ori_load_module(fullname)
+                        #     # 装饰器方式引入的切点
+                        #
+                        #     notifier.trigger(SIG_MODULE_LOADED, module)
+                        #     # point_cut_matcher.on_module_executed(module)
+                        #     # point_cut_matcher.match_advance_set_pointcuts(module)
+                        #     return ret
+                        # loader.load_module = aop_load_module
                 return spec
 
             # 保持cls变量的传入，避免使用外部的finder，与循环变量同名致函数内部用错

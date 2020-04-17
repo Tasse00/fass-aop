@@ -8,6 +8,8 @@ aspects:
       logger_name: werkzerg
   profiler:
     class: aop.aspect.collection.profiler.SimpleProfiler
+  details_profiler:
+    class: aop.aspect.collection.profiler.DetailsProfiler
 pointcuts:
   logger:
     - example.apis.*.*Api,^Config*.get
@@ -19,4 +21,8 @@ pointcuts:
       order: 1
     - pointcut: example.services.foo.Foo.pipe
       order: 1
-
+  details_profiler:
+    - pointcut: example.apis.*.*Api.get
+      order: 1
+    - pointcut: example.services.foo.Foo.pipe
+      order: 1

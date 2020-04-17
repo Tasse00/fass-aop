@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link href="https://cdn.bootcss.com/jquery-treetable/3.2.0/css/jquery.treetable.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/jquery-treetable/3.2.0/css/jquery.treetable.theme.default.css" rel="stylesheet">
+
+</head>
+<body>
+
+<table id="output">
+    <thead>
+    <tr role="row">
+        <th> 项目</th>
+        <th> 次数</th>
+        <th> 平均开销</th>
+        <th> 总计时间</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for row in rows %}
+    <tr data-tt-id="{{row.id}}" data-tt-parent-id="{{row.parent}}">
+        <td>{{row.id}}</td>
+        <td>{{row.count}}</td>
+        <td>{{row.average}}</td>
+        <td>{{row.average * row.count}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.js"></script>
+<script src="https://cdn.bootcss.com/jquery-treetable/3.2.0/jquery.treetable.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#output").treetable({expandable: true});
+    });
+</script>
+</body>
+</html>

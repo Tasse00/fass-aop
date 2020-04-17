@@ -1,3 +1,5 @@
+from flask import render_template_string
+
 import example
 import logging
 
@@ -14,6 +16,14 @@ if __name__ == "__main__":
     with open("example_aop.yml", "r", encoding="utf8") as fr:
         config = yaml.load(fr, yaml.BaseLoader)
         aop.from_config(config)
+
+
+    @app.route('/tree_cost')
+    def tree_cost():
+
+        details_profiler = aop.aspect_store.get_aspect('details_profiler')
+        html, rows = details_profiler.prepare_cost_view()
+        return render_template_string(html, rows=rows)
 
     try:
         app.run()

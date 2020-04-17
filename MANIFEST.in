@@ -1,2 +1,3 @@
 include MANIFEST.in
 include README.md
+include aop/aspect/collection/profiler/details/cost_tree.html

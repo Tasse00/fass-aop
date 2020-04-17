@@ -78,7 +78,7 @@ class DetailsProfiler(Aspect):
         item[1] = (item[0] * item[1] + cost) / (item[0] + 1)
         item[0] += 1
 
-        self.local.stack.append(pjp.join_point.get_name())
+        self.local.stack.pop()
         return ret
 
     def console_report(self):

@@ -66,7 +66,7 @@ class PointcutMatcher:
         #   coverage run -m pytest 情况下出现module值为下述tuple
         #   (<coverage.debug.DebugOutputFile object at 0x7f10ad7eb1c0>, False)
         #
-        if isinstance(module, ModuleType):
+        if not isinstance(module, ModuleType):
             warnings.warn("invalid module: %s"%module)
             return
 

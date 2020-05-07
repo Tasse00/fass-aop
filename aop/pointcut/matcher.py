@@ -67,7 +67,7 @@ class PointcutMatcher:
         #   (<coverage.debug.DebugOutputFile object at 0x7f10ad7eb1c0>, False)
         #
         if not isinstance(module, ModuleType):
-            warnings.warn("invalid module: %s"%module)
+            warnings.warn("invalid module: %s" % str(module))
             return
 
         # "server.api.v*.*.get|post" -> ['server', 'api', 'v*', '*', 'get|post']

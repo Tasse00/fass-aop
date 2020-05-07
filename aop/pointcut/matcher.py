@@ -1,5 +1,6 @@
 import re
 import sys
+import warnings
 from types import ModuleType, MethodType, FunctionType
 from typing import List, Dict
 
@@ -59,6 +60,15 @@ class PointcutMatcher:
 
     def match_pointcut(self, module: ModuleType, pointcut: Pointcut):
         """module对单独一个切点进行检查、匹配"""
+        # 排除不可控情况，使得程序可以继续运行下去
+        # TODO
+        # case 1:
+        #   coverage run -m pytest 情况下出现module值为下述tuple
+        #   (<coverage.debug.DebugOutputFile object at 0x7f10ad7eb1c0>, False)
+        #
+        if isinstance(module, ModuleType):
+            warnings.warn("invalid module: %s"%module)
+            return
 
         # "server.api.v*.*.get|post" -> ['server', 'api', 'v*', '*', 'get|post']
         expr_com_list = pointcut.expr.split(".")

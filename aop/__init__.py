@@ -8,8 +8,6 @@ from aop.pointcut.matcher import PointcutMatcher
 from aop.signals import notifier, SIG_ASPECT_ADDED, SIG_MODULE_LOADED
 from aop.utils import import_target
 
-__version__ = "2.0.2"
-
 join_point_store = JoinPointStore()
 aspect_store = AspectStore()
 point_cut_matcher = PointcutMatcher(join_point_store, aspect_store)
@@ -99,16 +97,21 @@ def install():
             def wrap_find_module(cls, fullname, path=None):
                 loader = cls.ori_find_module(fullname, path)
                 if loader:
-                    ori_exec_module = loader.exec_module
+                    if hasattr(loader, "exec_module"):
+                        ori_exec_module = loader.exec_module
 
-                    def aop_exec_module(module):
-                        ret = ori_exec_module(module)
-                        notifier.trigger(SIG_MODULE_LOADED, module)
-                        # point_cut_matcher.on_module_executed(module)
-                        # point_cut_matcher.match_advance_set_pointcuts(module)
-                        return ret
+                        def aop_exec_module(module):
+                            ret = ori_exec_module(module)
+                            notifier.trigger(SIG_MODULE_LOADED, module)
+                            # point_cut_matcher.on_module_executed(module)
+                            # point_cut_matcher.match_advance_set_pointcuts(module)
+                            return ret
 
-                    loader.exec_module = aop_exec_module
+                        loader.exec_module = aop_exec_module
+                    else:
+                        # TODO
+                        # AttributeError: '_SixMetaPathImporter' object has no attribute 'exec_module'
+                        pass
 
                 return loader
 
